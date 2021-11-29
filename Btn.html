@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<style>
+  * {
+    border: 0px solid black;
+  }
+
+  li {
+    list-style: none;
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
+    width: 100%;
+  }
+
+  .link_Btn {
+    min-width: 320px;
+  }
+
+  .link_Btn ul {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .link_Btn ul li {
+    width: 25%;
+    text-align: center;
+    padding: 5px;
+    border: 1px solid gray;
+  }
+
+  #selecTed {
+    background-color: #47CFD3;
+  }
+
+  #selecTed a {
+    color: white;
+  }
+</style>
+
+<body>
+  <div class="link_Btn">
+    <ul>
+      <li><a href="#">전체</a></li>
+      <li><a href="#">진행중인 이벤트</a></li>
+      <li><a href="#">종료된 이벤트</a></li>
+    </ul>
+  </div>
+
+</body>
+<script type="text/javascript">
+$(document).ready(function() {
+    var Btns = $('.link_Btn >ul > li');
+
+    Btns.click(function() {
+        $(this).attr('id','selecTed');
+        $(this).siblings().removeAttr('id');
+    });
+});
+</script>
+
+</html>
