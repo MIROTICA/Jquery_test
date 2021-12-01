@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <title>ex6</title>
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/font-awesome.min.css" />
+  <link rel="stylesheet" href="css/notosanskr.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <style>
+    #wrap {
+      font-family: "Noto Sans KR", sans-serif;
+      width: 800px;
+      height: 500px;
+      margin: 20px auto;
+      box-shadow: 0 16px 28px 0 rgba(0, 0, 0, 0.22), 0 25px 55px 0 rgba(0, 0, 0, 0.21);
+      text-align: center;
+      padding: 40px 0;
+      position: relative;
+      border: 6px solid #616161;
+    }
+
+    #wrap h1 {
+      font-size: 40px;
+      font-weight: 900;
+      color: #795548;
+    }
+
+    #imgBox {
+      width: 340px;
+      height: 340px;
+      position: absolute;
+      top: 120px;
+      left: 225px;
+      overflow: hidden;
+    }
+
+    #imgs {
+      position: absolute;
+      width: 2420px;
+      transition: .3s ease;
+    }
+
+    #imgs img {
+      float: left;
+      display: block;
+    }
+
+    ul {
+      width: 800px;
+      height: 100px;
+      position: relative;
+      top: 380px;
+      margin-left: 10px;
+    }
+
+    #nameBox li {
+      float: left;
+      margin: 20px 0 0 10px;
+    }
+
+    #nameBox li a {
+      text-decoration: none;
+      background: #FF1744;
+      color: #424242;
+      transition: .1s linear;
+      display: block;
+      width: 100px;
+      height: 50px;
+      line-height: 50px;
+      font-weight: bold;
+      color: #99F787;
+    }
+
+    #nameBox li a:hover {
+      background: #6859ff;
+      color: #fff;
+      font-size: 20px;
+      box-shadow: 5px 5px 10px #000;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="wrap">
+    <h1>이름 맞추기</h1>
+    <div id="imgBox">
+      <div id="imgs">
+        <img src="img/k1.png" />
+      </div>
+      <!--//#imgs -->
+    </div>
+    <!--//#imgBox -->
+    <div id="nameBox">
+      <h2 class="screen_out">카카오프렌즈 이름들</h2>
+      <ul>
+        <li><a href="#">무지</a></li>
+        <li><a href="#">어피치</a></li>
+        <li><a href="#">제이지</a></li>
+        <li><a href="#">프로도</a></li>
+        <li><a href="#">네오</a></li>
+        <li><a href="#">튜브</a></li>
+        <li><a href="#">라이언</a></li>
+      </ul>
+    </div>
+    <!--//#nameBox -->
+  </div>
+  <!--//#wrap -->
+
+  <script>
+    alert("맞추면 +20점 틀리면 -10점 200점 만점 일시 승리!");
+    var Score = 0;
+
+    $(window).ready(function() {
+      function random() {
+        let randomNumber = Math.floor(Math.random() * 7) + 1;
+        $('#imgs').children('img').attr('src', 'img/k' + randomNumber + '.png');
+        return randomNumber;
+      };
+      random();
+
+      var imgS = $('img').attr('src');
+      imgS = imgS.split("k")
+      var str = imgS[1].replace(/[^0-9]/g, '');
+      var Btns = $('#nameBox>ul li');
+
+
+      Btns.click(function() {
+        if (str == Btns.index(this) + 1) {
+          Score = Score + 20;
+          alert(Score);
+          if (Score >= 200) {
+            alert('당신이 이겼습니다!');
+            window.location.reload();
+          }
+        } else {
+          Score = Score - 10;
+          alert(Score);
+
+        };
+        str = random();
+        console.log(str);
+      });
+    });
+
+    //이미지 스플릿 배열 숫자값 추출\
+
+    //
+  </script>
+</body>
+
+</html>
