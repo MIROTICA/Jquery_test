@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>그림판</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+    }
+
+    canvas {
+      box-shadow: 0 0 1px #000;
+      display: block;
+      cursor: crosshair;
+      margin: 0 auto;
+    }
+
+    #rangeBox {
+      position: fixed;
+      right: 0;
+      top: 0;
+      background: #fff;
+    }
+
+    #colorBox {
+      position: fixed;
+      right: 0;
+      top: 30px;
+      background: #fff;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="jsCanvas"></canvas>
+  <div id="colorBox">
+    <label>색상
+      <input type="color" id="color" />
+    </label>
+  </div>
+  <div id="rangeBox">
+    <label>라인두께
+      <input type="range" id="size" min="1" max="10" />
+    </label>
+  </div>
+  <script>
+    $(window).on('load', function() {
+      const canvas = document.getElementById("jsCanvas");
+      const ctx = canvas.getContext("2d");
+      const range = document.getElementById("size");
+      const color = document.getElementById("color");
+
+      canvas.width = 700;
+      canvas.height = 700;
+      ctx.strokeStyle = "#2c2c2c";
+      ctx.lineWidth = range;
+      let painting = false;
+      let filling = false;
+
+      function stopPainting(event) {
+        painting = false;
+      }
+
+      function startPainting() {
+        painting = true;
+      }
+
+      function onMouseMove(event) { //모든 움직임을 감지하고 line을 만든다.
+        //스크린과 캠퍼스가 크기가 다른 경우 offsetX와 offsetY를 사용한다.
+        const x = event.offsetX; //offset은 캔버스만 관계된 좌표
+        const y = event.offsetY;
+        if (!painting) {
+          ctx.beginPath(); //path를 만듬
+          ctx.moveTo(x, y); //x, y로 옮김
+        } else {
+          ctx.lineTo(x, y);
+          ctx.stroke();
+        }
+      }
+
+      function handleColorClick(event) {
+        const coLor = event.target.value;
+        ctx.strokeStyle = coLor;
+      }
+
+      function handleRangeChange(event) {
+        const size = event.target.value;
+        ctx.lineWidth = size;
+      }
+
+      function onMouseDown(event) {
+        painting = true;
+      }
+
+
+
+      if (canvas) {
+        canvas.addEventListener("mousemove", onMouseMove);
+        //캔버스 안에서의 움직임 감지
+        canvas.addEventListener("mousedown", startPainting);
+        //클릭했을때 발생하는 event
+        canvas.addEventListener("mouseup", stopPainting);
+        canvas.addEventListener("mouseleave", stopPainting);
+      }
+
+      if (range) {
+        range.addEventListener('input', handleRangeChange);
+      }
+
+      if (color) {
+        color.addEventListener('input', handleColorClick);
+      }
+
+    });
+  </script>
+</body>
+
+</html>
