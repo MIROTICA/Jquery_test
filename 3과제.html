@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <title>그림판</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+    }
+
+    canvas {
+      box-shadow: 0 0 1px #000;
+      display: block;
+      cursor: crosshair;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="jsCanvas"></canvas>
+  <script>
+    const canvas = document.getElementById('jsCanvas');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const ctx = canvas.getContext('2d');
+    ctx.font = 'bold 50px sans-serif';
+
+    function circle(i, x, y, r, c) {
+      this.index = i;
+      this.x = x;
+      this.y = y;
+      this.r = r;
+      this.c = c;
+
+      this.dx = (Math.random() * 4) + 1;
+      this.dx *= Math.floor(Math.random() * 2) == 1 ? 1 : -1;
+      this.dy = (Math.random() * 4) + 1;
+      this.dy *= Math.floor(Math.random() * 2) == 1 ? 1 : -1;
+
+      this.draw = function() {
+        ctx.beginPath();
+        ctx.fillStyle = this.c;
+        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#fff';
+        ctx.fillText(this.index, this.x - 15, this.y + 20);
+      }
+
+      this.animate = function() {
+        this.x += this.dx;
+        this.y += this.dy;
+
+        if (this.x + this.r > canvas.width || this.x - this.r < 0) {
+          this.dx *= -1;
+        }
+        if (this.y + this.r > canvas.height || this.y - this.r < 0) {
+          this.dy *= -1;
+        }
+        this.draw();
+      }
+    }
+
+    let balls = [];
+    for (var i = 0; i < 20; i++) {
+      let r = Math.floor(Math.random() * 50) + 30;
+      let x = Math.random() * (canvas.width - r * 2) + r;
+      let y = Math.random() * (canvas.height - r * 2) + r;
+      let c = `rgb( ${new Array(3).fill().map(v => Math.random() * 255).join(", ")} )`; //rgb랜덤 함수
+      balls.push(new circle(i, x, y, r, c));
+    }
+
+    let j = 0;
+
+    canvas.addEventListener('click', function(e) {
+      j++
+      let t = i + j;
+      let r = Math.floor(Math.random() * 50) + 30;
+      let c = `rgb( ${new Array(3).fill().map(v => Math.random() * 255).join(", ")} )`; //rgb랜덤 함수
+      balls.push(new circle(t, e.clientX, e.clientY, r, c))
+
+    })
+
+    function Update() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (var i = 0; i < balls.length; i++) {
+        balls[i].animate();
+      }
+      requestAnimationFrame(Update);
+    }
+    Update();
+  </script>
+</body>
+
+</html>
